@@ -34,19 +34,13 @@ impl Writer {
         }
         self.buffer.chars[BUFFER_HEIGHT - 1].chars[self.column_position + 1].invert_colors();
     }
-    pub fn write_byte(&mut self, byte: u8) {
-        if byte == b'\n' || self.column_position >= ACTUAL_BUFFER_WIDTH {
+    pub fn write_byte(&mut self, ascii_character: u8) {
+        if ascii_character == b'\n' || self.column_position >= ACTUAL_BUFFER_WIDTH {
             self.move_cursor(0);
             return;
         }
         self.move_cursor(self.column_position + 1);
-        self.set_char(byte);
-    }
-    fn set_char(&mut self, byte: u8) {
-        self.buffer.chars[BUFFER_HEIGHT - 1].chars[self.column_position] = Char {
-            ascii_character: byte,
-            color_code: self.color_code,
-        };
+        self.buffer.put_char(self.column_position,Char { ascii_character, color_code: self.color_code });
     }
     fn next_line(&mut self) {
         for row in 1..BUFFER_HEIGHT {
@@ -90,13 +84,13 @@ impl Writer {
     pub fn set_color(&mut self, foreground: Color, background: Color) {
         self.color_code = ColorCode::new(foreground, background);
     }
-    pub fn backspace(&mut self) {
-        if self.column_position == 0 {
-            return;
-        }
-        self.set_char(b' ');
-        self.move_cursor(self.column_position - 1);
-    }
+    //pub fn backspace(&mut self) {
+    //    if self.column_position == 0 {
+    //        return;
+    //    }
+    //    self.set_char(b' ');
+    //    self.move_cursor(self.column_position - 1);
+    //}
     pub fn cursor_back(&mut self) {
         if self.column_position == 0 {
             return;

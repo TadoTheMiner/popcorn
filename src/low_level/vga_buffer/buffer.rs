@@ -19,6 +19,11 @@ impl Char {
 pub struct Buffer {
     pub chars: [BufferRow; BUFFER_HEIGHT],
 }
+impl Buffer {
+    pub fn put_char(&mut self, column_position: usize, character: Char) {
+        self.chars[BUFFER_HEIGHT].put_char(column_position, character);
+    }
+}
 #[derive(Clone, Copy)]
 pub struct BufferRow {
     pub chars: [Char; BUFFER_WIDTH],

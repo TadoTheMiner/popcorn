@@ -53,11 +53,11 @@ pub fn clear_screen(color: Color) {
     });
 }
 
-pub fn backspace() {
-    interrupts::without_interrupts(|| {
-        WRITER.lock().backspace();
-    });
-}
+//pub fn backspace() {
+//   interrupts::without_interrupts(|| {
+//       WRITER.lock().backspace();
+//    });
+//}
 pub fn cursor_back() {
     interrupts::without_interrupts(|| {
         WRITER.lock().cursor_back();
