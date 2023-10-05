@@ -26,13 +26,13 @@ impl Writer {
         }
     }
     pub fn move_cursor(&mut self, column_position: usize) {
-        self.buffer.chars[BUFFER_HEIGHT - 1][self.column_position + 1].invert_colors();
+        self.buffer.chars[BUFFER_HEIGHT - 1].chars[self.column_position + 1].invert_colors();
         if column_position == 0 {
             self.next_line();
         } else {
             self.column_position = column_position;
         }
-        self.buffer.chars[BUFFER_HEIGHT - 1][self.column_position + 1].invert_colors();
+        self.buffer.chars[BUFFER_HEIGHT - 1].chars[self.column_position + 1].invert_colors();
     }
     pub fn write_byte(&mut self, byte: u8) {
         if byte == b'\n' || self.column_position >= ACTUAL_BUFFER_WIDTH {
@@ -43,7 +43,7 @@ impl Writer {
         self.set_char(byte);
     }
     fn set_char(&mut self, byte: u8) {
-        self.buffer.chars[BUFFER_HEIGHT - 1][self.column_position] = Char {
+        self.buffer.chars[BUFFER_HEIGHT - 1].chars[self.column_position] = Char {
             ascii_character: byte,
             color_code: self.color_code,
         };
@@ -63,7 +63,7 @@ impl Writer {
         };
         for row in 0..BUFFER_HEIGHT {
             for col in 0..BUFFER_WIDTH {
-                self.buffer.chars[row][col] = blank;
+                self.buffer.chars[row].chars[col] = blank;
             }
         }
     }

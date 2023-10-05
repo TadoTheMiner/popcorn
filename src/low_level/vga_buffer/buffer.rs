@@ -14,8 +14,14 @@ impl Char {
     }
 }
 #[repr(transparent)]
+
+#[derive(Clone, Copy)]
 pub struct Buffer {
-    pub chars: [[Char; BUFFER_WIDTH]; BUFFER_HEIGHT],
+    pub chars: [BufferRow; BUFFER_HEIGHT],
+}
+#[derive(Clone, Copy)]
+pub struct BufferRow {
+    pub chars: [Char; BUFFER_WIDTH],
 }
 impl BufferRow {
     pub fn put_char(&mut self, mut column_position: usize, mut character: Char) {
