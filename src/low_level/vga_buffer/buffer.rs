@@ -1,5 +1,5 @@
 use super::Color;
-
+use core::mem::swap;
 pub const BUFFER_HEIGHT: usize = 25;
 pub const BUFFER_WIDTH: usize = 80;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -16,6 +16,18 @@ impl Char {
 #[repr(transparent)]
 pub struct Buffer {
     pub chars: [[Char; BUFFER_WIDTH]; BUFFER_HEIGHT],
+}
+impl BufferRow {
+    pub fn put_char(&mut self, mut column_position: usize, mut character: Char) {
+        loop {
+            swap(&mut character, &mut self.chars[column_position]);
+            column_position += 1;
+            //Do while loops, why arent you in rust
+            if self.chars[column_position].ascii_character == 0 || column_position == BUFFER_WIDTH {
+                break;
+            }
+        }
+    }
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(transparent)]
